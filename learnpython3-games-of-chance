@@ -1,0 +1,94 @@
+import random
+
+money = 100
+
+#bet = input("Place your bet")
+
+#Write your game of chance functions here
+
+def coin(bet, call):
+  #call = input("Call the coin flip, Heads or Tails: ")
+  flip = random.randint(1,2)
+  if bet > money:
+    print("You bet more than you have! Time to take a break.")
+    return 0
+  elif(flip == 1 and call == "Heads"):
+    print("You called {call} right!  Your bet was {bet}.".format(call=call,bet=bet))
+    return bet
+  elif (flip == 2 and call == "Tails"):
+    print("You called {call} right!  Your bet was {bet}.".format(call=call,bet=bet))
+    return bet
+  else:
+    print("You called {call} wrong.  Your bet was {bet}.".format(call=call,bet=bet))
+    return bet*-1
+
+def chohan(bet, call):
+  dice = random.randint(1,12)
+  #dice2 = random.randint(1,6)
+  if bet > money:
+    print("You bet more than you have! Time to take a break.")
+    return 0
+  elif(dice%2==0 and call == "Even"):
+    print("You called {call} right!  The roll was {roll}.  Your bet was {bet}.".format(call=call,roll=dice,bet=bet))
+    return bet
+  elif(dice%2==1 and call == "Odd"):
+    print("You called {call} right!  The roll was {roll}.  Your bet was {bet}.".format(call=call,roll=dice,bet=bet))
+    return bet
+  else:
+    print("You called {call} wrong!  The roll was {roll}.  Your bet was {bet}.".format(call=call,roll=dice,bet=bet))
+    return bet*-1
+  
+def cards(bet):
+  
+  deck = []#list(range(1,14))
+  i = 0
+  suit = ""
+  while i < 4:
+    if i== 0 :
+      suit = "Hearts"
+    elif i == 1:
+      suit = "Diamonds"
+    elif i == 2:
+      suit = "Clubs"
+    else:
+      suit = "Spades"
+    j = 1
+    while j < 14:
+      deck.append([j, suit])
+      j += 1
+    i += 1
+    
+  #print(deck)
+  
+  card1 = random.randint(0,51)
+  card2 = random.randint(0,51)
+  
+  while (card2 == card1):
+    card2 = random.randint(0,51)
+    
+  if bet > money:
+    print("You bet more than you have! Time to take a break.")
+    return 0
+  elif deck[card1][0] > deck[card2][0]:
+    print("You called it right!  You drew a {card1} of {suit1} and your opponent drew a {card2} of {suit2}.".format(card1=deck[card1][0], suit1=deck[card1][1],card2=deck[card2][0], suit2=deck[card2][1]))
+    return bet
+  elif deck[card1][0] < deck[card2][0]:
+    print("You called it wrong.  You drew a {card1} of {suit1} and your opponent drew a {card2} of {suit2}.".format(card1=deck[card1][0], suit1=deck[card1][1],card2=deck[card2][0], suit2=deck[card2][1]))
+    return bet*-1
+  else:
+    print("Tie!  You drew a {card1} of {suit1} and your opponent drew a {card2} of {suit2}.".format(card1=deck[card1][0], suit1=deck[card1][1],card2=deck[card2][0], suit2=deck[card2][1]))
+    return 0
+    
+  
+#Call your game of chance functions here
+
+print("Coin flip:")
+money += coin(10, "Heads")
+print(money)
+print("Cho-Han:")
+money += chohan(10,"Odd")
+print(money)
+print("Deck of cards:")
+money += cards(10)
+print(money)
+print("Roulette:")
