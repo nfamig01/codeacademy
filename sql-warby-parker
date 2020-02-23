@@ -2,6 +2,7 @@ select question, count(distinct user_id) as "num_answers"
  from survey
  group by question;
 
+with funnel as (
 select distinct quiz.user_id, 
  home_try_on.user_id is not null as "is_home_try_on",
  home_try_on.number_of_pairs,
@@ -9,4 +10,19 @@ select distinct quiz.user_id,
 from quiz
 left join home_try_on on home_try_on.user_id = quiz.user_id
 left join purchase on purchase.user_id = quiz.user_id
-limit 20;
+)
+
+select distinct number_of_pairs, count(is_purchase)
+from funnel
+group by 1
+order by 2 desc;
+
+select distinct shape, count(user_id) as responses
+from quiz
+group by 1;
+
+select distinct model_name, count(user_id) as
+purchases
+from purchase
+group by 1
+order by 2 desc;
