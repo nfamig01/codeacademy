@@ -12,7 +12,7 @@ left join home_try_on on home_try_on.user_id = quiz.user_id
 left join purchase on purchase.user_id = quiz.user_id
 )
 
-select distinct number_of_pairs, count(is_purchase)
+select distinct number_of_pairs, count(is_purchase) as purchases
 from funnel
 group by 1
 order by 2 desc;
