@@ -1,0 +1,31 @@
+SELECT *
+FROM met
+LIMIT 10;
+
+select count(*)
+from met;
+
+select count(*)
+from met
+where category like "%celery%";
+
+SELECT date, title, medium
+FROM met
+WHERE date LIKE '%1600%';
+
+select country, count(*)
+from met
+group by country
+order by count(*) desc
+limit 10;
+
+select category, count(*)
+from met
+group by category
+having count(*) > 100;
+
+select medium, count(*)
+from met
+where medium like "%gold%" or medium like "%silver%"
+group by medium
+order by count(*) desc;
