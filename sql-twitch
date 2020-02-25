@@ -1,0 +1,48 @@
+select * from stream limit 20;
+select * from chat limit 20;
+
+select distinct(game) from stream;
+select distinct(channel) from stream;
+select game, count(distinct(device_id)) as viewers
+from stream
+group by game
+order by viewers desc;
+
+select country, count(distinct(device_id)) as viewers
+from stream
+where game = "League of Legends"
+group by country
+order by viewers desc;
+
+select player, count(distinct(device_id)) as viewers
+from stream
+group by player
+order by viewers desc;
+
+select game,
+  case
+    when (game = "Dota 2") or (game = "League of Legends") or (game = "Heroes of the Storm")
+      then "MOBA"
+    when (game = "Counter-Strike: Global Offensive")
+      then "FPS"
+    when (game = "DayZ") or (game = "ARK: Survival Evolved")
+      then "survival"
+    else "other"
+  end as "genre",
+  count(*) as viewers
+from stream
+group by game
+order by viewers desc;
+
+select time, strftime ("%S", time) from stream
+group by time
+limit 10;
+
+select  strftime("%H", time) as hour, count(distinct(device_id))
+from stream
+where country = "US"
+group by hour;
+
+select *
+from stream
+join chat on stream.device_id = chat.device_id;
