@@ -1,0 +1,54 @@
+import numpy as np
+import fetchmaker
+from scipy.stats import binom_test
+from scipy.stats import f_oneway
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+from scipy.stats import chi2_contingency
+
+rottweiler_t1 = fetchmaker.get_tail_length("rottweiler")
+rottweiler_t1_mean = np.mean(rottweiler_t1)
+rottweiler_t1_std = np.std(rottweiler_t1)
+print(rottweiler_t1_mean)
+print(rottweiler_t1_std)
+
+whippet_rescue = fetchmaker.get_is_rescue("whippet")
+num_whippet_rescues = np.count_nonzero(whippet_rescue)
+num_whippets = np.size(whippet_rescue)
+whippet_rescue_pval = binom_test(num_whippets, n=10000, p=0.08)
+print(whippet_rescue_pval)
+
+
+whippet_avg_weight = fetchmaker.get_weight('whippet')
+terrier_avg_weight = fetchmaker.get_weight('terrier')
+pitbull_avg_weight = fetchmaker.get_weight('pitbull')
+fstat, avg_weight_pval = f_oneway(whippet_avg_weight,terrier_avg_weight,pitbull_avg_weight)
+print(avg_weight_pval)
+
+v = np.concatenate([whippet_avg_weight, terrier_avg_weight, pitbull_avg_weight])
+labels = ['whippet weight'] * len(whippet_avg_weight) + ['terrier weight'] * len(terrier_avg_weight) + ['pitbull weight'] * len(pitbull_avg_weight)
+
+tukey_results = pairwise_tukeyhsd(v, labels, 0.05)
+print(tukey_results)
+
+poodle_colors = fetchmaker.get_color("poodle")
+shihtzu_colors = fetchmaker.get_color("shihtzu")
+
+black_poodle = np.count_nonzero(poodle_colors == "black")
+brown_poodle = np.count_nonzero(poodle_colors == "brown")
+gold_poodle = np.count_nonzero(poodle_colors == "gold")
+grey_poodle = np.count_nonzero(poodle_colors == "grey")
+white_poodle = np.count_nonzero(poodle_colors == "white")
+black_shihtzu = np.count_nonzero(shihtzu_colors == "black")
+brown_shihtzu = np.count_nonzero(shihtzu_colors == "brown")
+gold_shihtzu = np.count_nonzero(shihtzu_colors == "gold")
+grey_shihtzu = np.count_nonzero(shihtzu_colors == "grey")
+white_shihtzu = np.count_nonzero(shihtzu_colors == "white")
+
+color_table = [ [black_poodle, black_shihtzu],
+                [brown_poodle, brown_shihtzu],
+                [gold_poodle, gold_shihtzu],
+                [grey_poodle, grey_shihtzu],
+              	[white_poodle, white_shihtzu] ]
+print(color_table)
+chi2, p, dof, ex = chi2_contingency(color_table)
+print(p)
