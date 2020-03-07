@@ -1,0 +1,61 @@
+import codecademylib3_seaborn
+import numpy as np
+from matplotlib import pyplot as plt
+from sklearn import datasets
+
+digits = datasets.load_digits()
+#print(digits.DESCR)
+#print(digits.data)
+#print(digits.target)
+
+#plt.gray() 
+#plt.matshow(digits.images[100])
+#plt.show()
+#print(digits.target[100])
+
+from sklearn.cluster import KMeans
+
+model = KMeans(n_clusters = 10, random_state = 42)
+model.fit(digits.data)
+
+fig = plt.figure(figsize=(8, 3))
+fig.suptitle('Cluser Center Images', fontsize=14, fontweight='bold')
+
+for i in range(10):
+  # Initialize subplots in a grid of 2X5, at i+1th position
+  ax = fig.add_subplot(2, 5, 1 + i)
+  # Display images
+  ax.imshow(model.cluster_centers_[i].reshape((8, 8)), cmap=plt.cm.binary)
+  
+plt.show()
+
+new_samples = np.array([
+[0.00,1.45,3.81,3.81,3.11,0.46,0.00,0.00,0.00,2.98,6.86,7.17,7.62,6.41,0.23,0.00,0.00,0.00,0.00,0.00,2.60,7.62,6.03,0.15,0.00,0.00,0.00,0.00,0.00,3.20,7.62,2.14,0.00,0.00,1.30,3.81,3.56,5.56,7.62,2.59,0.00,0.00,6.72,7.62,7.62,7.62,5.52,0.15,0.00,0.00,2.29,3.05,4.50,7.47,7.40,2.06,0.00,0.00,0.00,0.00,0.00,1.15,6.63,5.04],
+[0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.45,3.13,4.65,5.34,4.32,0.00,0.00,2.06,7.17,7.62,7.07,6.54,7.62,0.08,0.00,2.68,7.62,4.86,0.28,2.61,7.62,2.36,0.00,0.00,5.72,7.09,5.34,5.49,7.62,3.05,0.00,0.00,2.61,7.62,6.71,6.79,6.86,2.19,0.00,0.00,0.39,7.40,3.89,0.00,0.00,0.00,0.00,0.00,0.00,0.53,0.13,0.00,0.00,0.00,0.00],
+[0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,1.60,6.57,0.76,0.00,0.69,0.66,0.00,0.00,1.46,7.63,3.43,0.00,5.67,5.19,0.00,0.00,0.00,6.26,5.49,0.00,5.74,5.26,0.00,0.00,0.00,4.36,7.63,7.45,7.22,6.84,0.76,0.00,0.00,0.00,1.99,4.04,7.55,6.92,0.46,0.00,0.00,0.00,0.00,0.00,7.10,4.20,0.00,0.00,0.00,0.00,0.00,0.00,7.27,3.81,0.00],
+[0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.38,2.29,2.82,2.19,0.00,0.00,0.00,1.07,6.33,7.62,7.62,6.64,0.00,0.00,0.00,5.43,7.62,5.01,7.40,7.47,0.46,0.00,0.00,4.58,7.62,7.62,7.62,7.62,1.53,0.00,0.00,0.23,1.52,1.52,3.43,7.62,1.52,0.00,0.00,0.00,0.00,0.00,4.89,7.55,0.77,0.00,0.00,0.00,0.00,0.00,2.22,2.49,0.00]
+])
+
+new_labels = model.predict(new_samples)
+
+for i in range(len(new_labels)):
+  if new_labels[i] == 0:
+    print(0, end='')
+  elif new_labels[i] == 1:
+    print(9, end='')
+  elif new_labels[i] == 2:
+    print(2, end='')
+  elif new_labels[i] == 3:
+    print(1, end='')
+  elif new_labels[i] == 4:
+    print(6, end='')
+  elif new_labels[i] == 5:
+    print(8, end='')
+  elif new_labels[i] == 6:
+    print(4, end='')
+  elif new_labels[i] == 7:
+    print(5, end='')
+  elif new_labels[i] == 8:
+    print(7, end='')
+  elif new_labels[i] == 9:
+    print(3, end='')
